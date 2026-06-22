@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UbongAbasi Akpan — Backend Engineer CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Variables ── */
+    :root {
+      --navy:    #0d1b3e;
+      --blue:    #1a56db;
+      --blue-lt: #e8f0fe;
+      --gray:    #64748b;
+      --gray-lt: #f1f5f9;
+      --border:  #e2e8f0;
+      --text:    #1e293b;
+      --white:   #ffffff;
+    }
+
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 11pt; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: #e5e7eb;
+      line-height: 1.5;
+    }
+    a { color: var(--blue); text-decoration: none; }
+
+    /* ── Print button (screen only) ── */
+    .print-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: var(--navy);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+      gap: 16px;
+    }
+    .print-bar span {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.82rem;
+    }
+    .print-bar strong { color: #fff; }
+    .btn-print {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      padding: 9px 22px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-print:hover { background: #1440a8; }
+
+    /* ── Page wrapper ── */
+    .page-wrap {
+      margin-top: 56px;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── CV paper ── */
+    .cv {
+      background: var(--white);
+      width: 210mm;
+      min-height: 297mm;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Header ── */
+    .cv-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 28px 36px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: end;
+    }
+    .cv-name {
+      font-size: 22pt;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      margin-bottom: 4px;
+    }
+    .cv-name span { color: #60a5fa; }
+    .cv-role {
+      font-size: 10.5pt;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .cv-contacts {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+    .cv-contact-item {
+      font-size: 8.5pt;
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cv-contact-item svg {
+      width: 11px; height: 11px;
+      fill: rgba(255,255,255,0.55);
+      flex-shrink: 0;
+    }
+
+    /* ── Body ── */
+    .cv-body {
+      display: grid;
+      grid-template-columns: 62% 38%;
+      flex: 1;
+    }
+
+    /* ── Left column ── */
+    .cv-main { padding: 24px 28px 24px 36px; border-right: 1px solid var(--border); }
+    /* ── Right column ── */
+    .cv-side { padding: 24px 28px 24px 22px; background: #fafbfc; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 18px; }
+    .section:last-child { margin-bottom: 0; }
+
+    .section-title {
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--blue-lt);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px; height: 12px;
+      background: var(--blue);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Experience entry ── */
+    .entry { margin-bottom: 14px; }
+    .entry:last-child { margin-bottom: 0; }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 2px;
+    }
+    .entry-role {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .entry-date {
+      font-size: 7.8pt;
+      color: var(--gray);
+      white-space: nowrap;
+      flex-shrink: 0;
+      font-weight: 500;
+    }
+    .entry-org {
+      font-size: 8.5pt;
+      font-weight: 600;
+      color: var(--blue);
+      margin-bottom: 5px;
+    }
+    .entry-bullets {
+      padding-left: 13px;
+    }
+    .entry-bullets li {
+      font-size: 8.5pt;
+      color: #374151;
+      line-height: 1.55;
+      margin-bottom: 3px;
+      list-style: disc;
+    }
+    .entry-bullets li::marker { color: var(--blue); }
+
+    /* ── Project entry ── */
+    .project-entry { margin-bottom: 11px; }
+    .project-entry:last-child { margin-bottom: 0; }
+    .project-name {
+      font-size: 8.8pt;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .project-desc {
+      font-size: 8pt;
+      color: #374151;
+      line-height: 1.55;
+      margin-bottom: 4px;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .ptag {
+      background: var(--blue-lt);
+      color: var(--blue);
+      font-size: 7pt;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 100px;
+    }
+
+    /* ── Side column items ── */
+    .skill-item { margin-bottom: 8px; }
+    .skill-name-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .skill-pct { color: var(--gray); font-weight: 400; }
+    .skill-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+    .skill-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), #60a5fa);
+      border-radius: 100px;
+    }
+
+    .edu-entry { margin-bottom: 10px; }
+    .edu-entry:last-child { margin-bottom: 0; }
+    .edu-degree {
+      font-size: 8.8pt;
+      font-weight: 700;
+      margin-bottom: 1px;
+    }
+    .edu-school {
+      font-size: 8pt;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 1px;
+    }
+    .edu-meta {
+      font-size: 7.8pt;
+      color: var(--gray);
+    }
+
+    .cert-entry { margin-bottom: 9px; }
+    .cert-entry:last-child { margin-bottom: 0; }
+    .cert-name {
+      font-size: 8.5pt;
+      font-weight: 700;
+      margin-bottom: 1px;
+    }
+    .cert-issuer {
+      font-size: 7.8pt;
+      color: var(--blue);
+      font-weight: 600;
+    }
+    .cert-meta { font-size: 7.5pt; color: var(--gray); }
+
+    .summary-text {
+      font-size: 8.8pt;
+      color: #374151;
+      line-height: 1.65;
+    }
+
+    .lang-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      margin-bottom: 4px;
+    }
+    .lang-level { color: var(--gray); font-size: 8pt; }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 14px 0;
+    }
+
+    /* ── Interest tags ── */
+    .interest-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .itag {
+      background: var(--gray-lt);
+      color: var(--text);
+      font-size: 7.5pt;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+    }
+
+    /* ═══════════════════════════════════
+       PRINT STYLES
+    ═══════════════════════════════════ */
+    @media print {
+      @page {
+        size: A4;
+        margin: 0;
+      }
+
+      html { font-size: 11pt; }
+
+      body {
+        background: none;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .print-bar { display: none !important; }
+      .page-wrap { margin-top: 0; padding: 0; }
+
+      .cv {
+        width: 100%;
+        min-height: auto;
+        box-shadow: none;
+        page-break-after: avoid;
+      }
+
+      .section { page-break-inside: avoid; }
+      .entry   { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Print bar (screen only) -->
+  <div class="print-bar">
+    <span><strong>UbongAbasi Akpan</strong> — Backend Engineer CV &nbsp;·&nbsp; Open in browser → File → Print → Save as PDF &nbsp;(A4, no margins)</span>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+      Save as PDF
+    </button>
+  </div>
+
+  <div class="page-wrap">
+    <div class="cv">
+
+      <!-- ── HEADER ── -->
+      <header class="cv-header">
+        <div>
+          <div class="cv-name">UbongAbasi<span> Akpan</span></div>
+          <div class="cv-role">Backend Engineer</div>
+        </div>
+        <div class="cv-contacts">
+          <!-- Email -->
+          <div class="cv-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.5"/></svg>
+            flexwidflash@gmail.com
+          </div>
+          <!-- Phone -->
+          <div class="cv-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012.77 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.75a16 16 0 006.29 6.29l1.1-1.1a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+            +234 814 234 1854
+          </div>
+          <!-- Location -->
+          <div class="cv-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3" fill="rgba(255,255,255,0.55)"/></svg>
+            Akwa Ibom, Nigeria · Open to Remote
+          </div>
+          <!-- GitHub -->
+          <div class="cv-contact-item">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            github.com/Brown-cello
+          </div>
+        </div>
+      </header>
+
+      <!-- ── BODY ── -->
+      <div class="cv-body">
+
+        <!-- ════ MAIN (left) ════ -->
+        <main class="cv-main">
+
+          <!-- Summary -->
+          <div class="section">
+            <div class="section-title">Professional Summary</div>
+            <p class="summary-text">
+              Backend Engineer with 5+ years building high-availability APIs, event-driven
+              pipelines, and microservice architectures that operate at scale in fintech and
+              e-commerce environments. Proficient in Node.js, NestJS, and distributed systems
+              design. Passionate about performance, observability, and clean system contracts.
+              Civil Engineering background brings rigorous analytical thinking to every
+              infrastructure decision.
+            </p>
+          </div>
+
+          <!-- Experience -->
+          <div class="section">
+            <div class="section-title">Work Experience</div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <div class="entry-role">Senior Backend Engineer</div>
+                <div class="entry-date">Feb 2023 — Apr 2026</div>
+              </div>
+              <div class="entry-org">PulseStack · Lagos, Nigeria (Remote)</div>
+              <ul class="entry-bullets">
+                <li>Owned the core payments API processing high-volume daily transactions, ensuring 99.95% uptime through circuit-breaker patterns and graceful degradation.</li>
+                <li>Redesigned webhook delivery system with Kafka and exponential back-off retry, achieving <strong>99.97% delivery reliability</strong> across 1M+ daily events.</li>
+                <li>Reduced API P95 latency from <strong>320ms → 85ms</strong> via PostgreSQL query optimization, connection pooling, and Redis caching strategies.</li>
+                <li>Mentored 3 junior engineers through code reviews and architectural decision records (ADRs).</li>
+              </ul>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <div class="entry-role">Backend Engineer</div>
+                <div class="entry-date">May 2021 — Jan 2023</div>
+              </div>
+              <div class="entry-org">TradeNest · Lagos, Nigeria</div>
+              <ul class="entry-bullets">
+                <li>Led migration of a Node.js monolith to a <strong>NestJS microservices architecture</strong>, cutting CI/CD pipeline time by 60% and enabling independent service deployments.</li>
+                <li>Built an inventory reservation service that eliminated overselling during flash sales, sustaining <strong>30k concurrent requests</strong> at peak load.</li>
+                <li>Introduced structured logging with Winston + ELK Stack, reducing mean time to debug production incidents from 4 hours to 35 minutes.</li>
+              </ul>
+            </div>
+
+            <div class="entry">
+              <div class="entry-header">
+                <div class="entry-role">Junior Backend Developer</div>
+                <div class="entry-date">Aug 2019 — Apr 2021</div>
+              </div>
+              <div class="entry-org">DevBridge · Port Harcourt, Nigeria</div>
+              <ul class="entry-bullets">
+                <li>Developed and maintained RESTful APIs for three client SaaS products using Node.js and Express, serving 50k+ monthly active users.</li>
+                <li>Applied composite indexing and query refactoring to reduce slow-query incidents by <strong>70%</strong> across PostgreSQL databases.</li>
+                <li>Grew test coverage from <strong>28% → 84%</strong> using Jest integration tests, reducing post-release bug reports by half.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Projects -->
+          <div class="section">
+            <div class="section-title">Key Projects</div>
+
+            <div class="project-entry">
+              <div class="project-name">AuthCore — Scalable Auth Microservice</div>
+              <div class="project-desc">
+                Production-grade auth service (JWT, OAuth2, API keys) handling 50k+ daily logins
+                with sub-10ms token validation via Redis caching and NestJS Guards.
+              </div>
+              <div class="project-tags">
+                <span class="ptag">NestJS</span>
+                <span class="ptag">PostgreSQL</span>
+                <span class="ptag">Redis</span>
+                <span class="ptag">JWT/OAuth2</span>
+                <span class="ptag">Docker</span>
+              </div>
+            </div>
+
+            <div class="project-entry">
+              <div class="project-name">PermGuard — RBAC Permission Engine</div>
+              <div class="project-desc">
+                Fine-grained Role-Based Access Control service for multi-tenant SaaS apps.
+                Resolves permission checks in under 5ms via a Redis cache with real-time
+                invalidation, exposed through a clean NestJS REST API.
+              </div>
+              <div class="project-tags">
+                <span class="ptag">NestJS</span>
+                <span class="ptag">PostgreSQL</span>
+                <span class="ptag">Redis</span>
+                <span class="ptag">TypeScript</span>
+                <span class="ptag">Docker</span>
+              </div>
+            </div>
+
+            <div class="project-entry">
+              <div class="project-name">TokenVault — API Key Management Service</div>
+              <div class="project-desc">
+                Secure API key lifecycle manager covering generation, scoping, rotation,
+                and audit logging for third-party integrations — with automatic expiry,
+                per-key usage analytics, and AWS KMS-backed encryption.
+              </div>
+              <div class="project-tags">
+                <span class="ptag">NestJS</span>
+                <span class="ptag">PostgreSQL</span>
+                <span class="ptag">Redis</span>
+                <span class="ptag">AWS KMS</span>
+              </div>
+            </div>
+          </div>
+
+        </main>
+
+        <!-- ════ SIDE (right) ════ -->
+        <aside class="cv-side">
+
+          <!-- Skills -->
+          <div class="section">
+            <div class="section-title">Technical Skills</div>
+
+            <div class="skill-item">
+              <div class="skill-name-row"><span>JavaScript / TypeScript</span><span class="skill-pct">Expert</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:93%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>Node.js / Express</span><span class="skill-pct">Expert</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:90%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>NestJS</span><span class="skill-pct">Advanced</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:87%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>PostgreSQL / MongoDB</span><span class="skill-pct">Advanced</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:85%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>Redis / Caching</span><span class="skill-pct">Advanced</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:83%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>Apache Kafka</span><span class="skill-pct">Proficient</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:78%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>Docker / Kubernetes</span><span class="skill-pct">Proficient</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:76%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>AWS (Lambda, SQS, ECS)</span><span class="skill-pct">Proficient</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:74%"></div></div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-name-row"><span>Git / CI/CD</span><span class="skill-pct">Advanced</span></div>
+              <div class="skill-track"><div class="skill-fill" style="width:88%"></div></div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Education -->
+          <div class="section">
+            <div class="section-title">Education</div>
+            <div class="edu-entry">
+              <div class="edu-degree">B.Eng. Civil Engineering</div>
+              <div class="edu-school">University of Uyo</div>
+              <div class="edu-meta">2014 — 2018 · Second Class Upper</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Certifications -->
+          <div class="section">
+            <div class="section-title">Certifications</div>
+            <div class="cert-entry">
+              <div class="cert-name">AWS Certified Developer — Associate</div>
+              <div class="cert-issuer">Amazon Web Services</div>
+              <div class="cert-meta">2022 · Score 891 / 1000</div>
+            </div>
+            <div class="cert-entry">
+              <div class="cert-name">MongoDB Associate Developer</div>
+              <div class="cert-issuer">MongoDB University</div>
+              <div class="cert-meta">2023</div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Core competencies -->
+          <div class="section">
+            <div class="section-title">Core Competencies</div>
+            <div class="interest-tags">
+              <span class="itag">REST APIs</span>
+              <span class="itag">GraphQL</span>
+              <span class="itag">Microservices</span>
+              <span class="itag">Event-Driven</span>
+              <span class="itag">System Design</span>
+              <span class="itag">Auth &amp; Security</span>
+              <span class="itag">Database Tuning</span>
+              <span class="itag">Observability</span>
+              <span class="itag">TDD / Jest</span>
+              <span class="itag">WebSockets</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Languages -->
+          <div class="section">
+            <div class="section-title">Languages</div>
+            <div class="lang-item"><span>English</span><span class="lang-level">Fluent</span></div>
+            <div class="lang-item"><span>Ibibio</span><span class="lang-level">Native</span></div>
+          </div>
+
+        </aside>
+      </div><!-- end cv-body -->
+
+    </div><!-- end .cv -->
+  </div><!-- end .page-wrap -->
+
+</body>
+</html>
